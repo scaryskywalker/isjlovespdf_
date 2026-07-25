@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.main-containers {
+  background: #e7dede;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 400px;
+  border-radius: 5px;
+  width: fit-content;
+  height: 300px;
+  gap: 10px;
+}
+
+.main-containers button {
+  background-color: red;
+  border: none;
+  padding: 15px 20px;
+  font-size: 18px;
+  border-radius: 8px;
+  font-family: "Inter";
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+}
