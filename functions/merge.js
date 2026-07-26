@@ -71,5 +71,29 @@ filesContainer.addEventListener("click", (e) => {
 submitMerge.addEventListener("click", async (e) => {
   e.preventDefault();
 
-  const data = new FormData(formData);
+  const data = new FormData();
+
+  const files = mergeInput.files;
+  for (let i = 0; i < files.length; i++) {
+    formData.append("files", files[i]);
+  }
+
+  try {
+    const response = await fetch("http://127.0.0.1:8000/mergefiles", {
+      method: "POST",
+      body: data,
+    });
+
+    if (!response.ok) throw new Error("Failed to merge Files");
+
+    const blob = await response.blob();
+    const downloadURL = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = downloadURL;
+    link.download = "merged-document.pdf";
+    link.click();
+    link.remove();
+  } catch (error) {
+    alert("Server Error connecting to mergefiles");
+  }
 });
