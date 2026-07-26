@@ -1,3 +1,4 @@
+// Merge button variables
 const mergebtn = document.querySelector("#merge-btn");
 const mergeDialog = document.querySelector("#mergeDialogbox");
 const mergeInput = document.querySelector("#merge-files");
