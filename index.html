@@ -14,13 +14,27 @@
   </head>
   <body>
     <div class="main-containers">
-      <button>Merge PDF</button>
+      <button id="merge-btn">Merge PDF</button>
       <button>Split PDF</button>
     </div>
 
-    <dialog>
-      <input type="file" multiple />
-      <button>Submit</button>
+    <!-- Merge dialog box -->
+
+    <dialog id="mergeDialogbox">
+      <div
+        style="padding: 30px; border: 1px dashed red"
+        id="upload-section-merge"
+      >
+        <input type="file" id="merge-files" multiple hidden />
+        <button id="uploadfilesmerge">Upload</button>
+      </div>
+      <div style="display: flex; justify-content: center; align-items: center">
+        <button id="merge-submit">Submit</button>
+      </div>
     </dialog>
+
+    <!-- end -->
+
+    <script src="functions/merge.js"></script>
   </body>
 </html>
