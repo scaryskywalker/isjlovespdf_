@@ -75,7 +75,7 @@ submitMerge.addEventListener("click", async (e) => {
 
   const files = mergeInput.files;
   for (let i = 0; i < files.length; i++) {
-    formData.append("files", files[i]);
+    data.append("files", files[i]);
   }
 
   try {
