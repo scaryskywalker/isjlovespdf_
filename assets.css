@@ -1,15 +1,20 @@
 body {
   margin: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
+.hidden {
+  display: none;
+}
+
 .main-containers {
   background: #e7dede;
   padding: 10px;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   min-width: 400px;
@@ -17,6 +22,57 @@ body {
   width: fit-content;
   height: 300px;
   gap: 10px;
+}
+
+.loadingApi {
+  display: none;
+  background-color: transparent;
+  border: none;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 40px;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingApi p {
+  font-family: "Inter";
+}
+
+.loader {
+  width: 40px;
+  height: 26px;
+  --c: no-repeat linear-gradient(#000 0 0);
+  background:
+    var(--c) 0 100%,
+    var(--c) 50% 100%,
+    var(--c) 100% 100%;
+  background-size: 8px calc(100% - 4px);
+  position: relative;
+}
+.loader:before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #000;
+  left: 0;
+  top: 0;
+  animation:
+    l3-1 1.5s linear infinite alternate,
+    l3-2 0.75s cubic-bezier(0, 200, 0.8, 200) infinite;
+}
+@keyframes l3-1 {
+  100% {
+    left: calc(100% - 8px);
+  }
+}
+@keyframes l3-2 {
+  100% {
+    top: -0.1px;
+  }
 }
 
 .main-containers button {

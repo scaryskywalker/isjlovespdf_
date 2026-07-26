@@ -6,8 +6,10 @@ const mergeInput = document.querySelector("#merge-files");
 
 const submitMerge = document.querySelector("#merge-submit");
 const filesContainer = document.querySelector(".total_files");
-
+const formData = document.querySelector("#mergeform");
 const uploadMerge = document.querySelector("#uploadfilesmerge");
+
+// Api checking
 
 mergebtn.addEventListener("click", () => {
   mergeDialog.showModal();
@@ -64,4 +66,10 @@ filesContainer.addEventListener("click", (e) => {
       box.dataset.index = index;
     });
   }
+});
+
+submitMerge.addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  const data = new FormData(formData);
 });

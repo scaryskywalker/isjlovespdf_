@@ -15,6 +15,10 @@
   </head>
   <body>
     <!-- main buttons -->
+    <div class="loadingApi">
+      <div class="loader"></div>
+      <p>Waking up the server... This might take up to 30 seconds.</p>
+    </div>
 
     <div class="main-containers">
       <button id="merge-btn">Merge PDF</button>
@@ -42,5 +46,41 @@
     <!-- end -->
 
     <script src="functions/merge.js"></script>
+
+    <script>
+      const mainContainer = document.querySelector(".main-containers");
+      const loading = document.querySelector(".loadingApi");
+
+      async function callapi(health, retryInterval = 3000, maxtries = 20) {
+        let attempts = 0;
+
+        while (attempts < maxtries) {
+          try {
+            attempts++;
+            loading.style.display = "flex";
+            const data = await fetch(health, { method: "GET" });
+
+            if (data.ok) {
+              return true;
+            }
+          } catch (error) {
+            console.log("Backend not ready");
+          }
+
+          await new Promise((resolve) => setTimeout(resolve, retryInterval));
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        try {
+          await callapi("http://127.0.0.1:8000/", 3000, 20);
+
+          loading.style.display = "none";
+          mainContainer.style.display = "flex";
+        } catch (error) {
+          loading.innerHTML = `<p>Server Connection timeout</p>`;
+        }
+      });
+    </script>
   </body>
 </html>
