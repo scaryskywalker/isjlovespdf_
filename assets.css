@@ -95,3 +95,24 @@ body {
   opacity: 1;
   transform: scale(1) translateY(0) rotate(360deg);
 }
+
+.total_files {
+  display: flex;
+  gap: 5px;
+}
+
+.files {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid red;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 5px;
+}
+
+.files:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
