@@ -9,8 +9,6 @@ const filesContainer = document.querySelector(".total_files");
 const formData = document.querySelector("#mergeform");
 const uploadMerge = document.querySelector("#uploadfilesmerge");
 
-// Api checking
-
 mergebtn.addEventListener("click", () => {
   mergeDialog.showModal();
 

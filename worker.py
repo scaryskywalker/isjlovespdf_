@@ -45,4 +45,8 @@ async def merge(files: List[UploadFile] = File(...) ):
         }
     )
 
+@app.post("/splitfiles")
+def split():
+    pass
+
 

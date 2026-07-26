@@ -52,7 +52,19 @@
 
     <!-- end -->
 
+    <!-- Split dialog box -->
+    <dialog id="splitDialogbox">
+      <input type="file" accept=".pdf" multiple />
+
+      <input type="number" id="from" />
+      <input type="number" id="to" />
+
+      <button>Submit</button>
+    </dialog>
+    <!-- end -->
+
     <script src="functions/merge.js"></script>
+    <script src="functions/split.js"></script>
 
     <script>
       const mainContainer = document.querySelector(".main-containers");
