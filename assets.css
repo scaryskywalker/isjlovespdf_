@@ -51,6 +51,7 @@ body {
   background-size: 8px calc(100% - 4px);
   position: relative;
 }
+
 .loader:before {
   content: "";
   position: absolute;

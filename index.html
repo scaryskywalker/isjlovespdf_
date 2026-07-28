@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="assets.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="split.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
@@ -54,12 +55,18 @@
 
     <!-- Split dialog box -->
     <dialog id="splitDialogbox">
-      <input type="file" accept=".pdf" multiple />
+      <div class="split-file-upload-section">
+        <button>Upload</button>
+      </div>
+      <div class="idk">
+        <input type="file" accept=".pdf" multiple hidden />
 
-      <input type="number" id="from" />
-      <input type="number" id="to" />
-
-      <button>Submit</button>
+        <input type="number" id="from" />
+        <input type="number" id="to" />
+      </div>
+      <div class="split-submit">
+        <button>Submit</button>
+      </div>
     </dialog>
     <!-- end -->
 
