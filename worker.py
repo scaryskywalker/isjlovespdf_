@@ -1,7 +1,8 @@
-from fastapi import FastAPI, File, UploadFile, Response
+from fastapi import FastAPI, File, UploadFile, Response, Form
 from typing import List
 from fastapi.middleware.cors import CORSMiddleware
 import fitz
+from pdf2docx import Converter
 
 app = FastAPI()
 
@@ -44,8 +45,44 @@ async def merge(files: List[UploadFile] = File(...) ):
         }
     )
 
-@app.post("/splitfiles")
-def split():
+@app.post("/splitfile")
+async def split(file: UploadFile = File(...), from_page: int = Form(alias="from"), to_page: int = Form(alias="to")):
+    try:
+        file_bytes = await file.read()
+
+        with fitz.open(stream=file_bytes, filetype="pdf") as src_pdf:
+            total_pages = len(src_pdf)
+
+            # Validate page range (1-indexed from user, 0-indexed in PyMuPDF)
+            if from_page < 1 or to_page > total_pages or from_page > to_page:
+                return Response(
+                    content=f"Invalid page range. PDF has {total_pages} pages. Requested: {from_page}-{to_page}",
+                    status_code=400,
+                )
+
+            split_pdf = fitz.open()
+            split_pdf.insert_pdf(src_pdf, from_page=from_page - 1, to_page=to_page - 1)
+
+            pdf_bytes = split_pdf.tobytes(garbage=4, deflate=True)
+            split_pdf.close()
+
+        await file.close()
+
+        return Response(
+            content=pdf_bytes,
+            media_type="application/pdf",
+            headers={
+                "Content-Disposition": f"attachment; filename=split_pages_{from_page}-{to_page}.pdf"
+            }
+        )
+
+    except Exception as e:
+        return Response(
+            content=f"Error splitting PDF: {str(e)}",
+            status_code=500,
+        )
+
+
+@app.post("/pdf2word")
+async def pdf2word():
     pass
-
-

@@ -11,12 +11,6 @@ const uploadMerge = document.querySelector("#uploadfilesmerge");
 
 mergebtn.addEventListener("click", () => {
   mergeDialog.showModal();
-
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      mergeDialog.classList.add("is-visible");
-    });
-  });
 });
 
 uploadMerge.addEventListener("click", () => {
@@ -72,11 +66,20 @@ submitMerge.addEventListener("click", async (e) => {
   const data = new FormData();
 
   const files = mergeInput.files;
+  if (files.length === 0) {
+    alert("Please select at least one PDF file to merge.");
+    return;
+  }
+
   for (let i = 0; i < files.length; i++) {
     data.append("files", files[i]);
   }
 
   try {
+    submitMerge.disabled = true;
+    submitMerge.innerHTML =
+      '<i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Merging...';
+
     const response = await fetch("http://127.0.0.1:8000/mergefiles", {
       method: "POST",
       body: data,
@@ -91,7 +94,12 @@ submitMerge.addEventListener("click", async (e) => {
     link.download = "merged-document.pdf";
     link.click();
     link.remove();
+    URL.revokeObjectURL(downloadURL);
   } catch (error) {
     alert("Server Error connecting to mergefiles");
+  } finally {
+    submitMerge.disabled = false;
+    submitMerge.innerHTML =
+      '<i class="fa fa-compress" aria-hidden="true"></i> Merge Files';
   }
 });

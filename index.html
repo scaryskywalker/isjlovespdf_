@@ -3,37 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ISJlovesPDF</title>
-    <link rel="stylesheet" href="assets.css" />
+    <title>ISJlovesPDF - PDF Tools</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="split.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets.css" />
+    <link rel="stylesheet" href="split.css" />
   </head>
   <body>
-    <!-- main buttons -->
-    <div class="loadingApi">
+    <!-- Loading Screen -->
+    <div class="loadingApi" role="status" aria-live="polite">
       <div class="loader"></div>
       <p>Waking up the server... This might take up to 30 seconds.</p>
     </div>
 
-    <div class="main-containers">
-      <button id="merge-btn">Merge PDF</button>
-      <button>Split PDF</button>
-    </div>
+    <!-- Main Content -->
+    <main class="main-containers" role="main">
+      <h1>ISJlovesPDF</h1>
+      <p class="subtitle">
+        Convert, merge, and split your PDF documents with ease
+      </p>
 
-    <!-- Merge dialog box -->
+      <div class="btn-group">
+        <button id="merge-btn" aria-haspopup="dialog">
+          <i class="fa fa-files-o" aria-hidden="true"></i>
+          Merge PDF
+        </button>
+        <button id="split-btn" aria-haspopup="dialog">
+          <i class="fa fa-scissors" aria-hidden="true"></i>
+          Split PDF
+        </button>
+        <button id="pdf2word-btn" aria-haspopup="dialog">
+          <i class="fa fa-file-word-o" aria-hidden="true"></i>
+          PDF to Word
+        </button>
+        <button id="word2pdf-btn" aria-haspopup="dialog">
+          <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+          Word to PDF
+        </button>
+      </div>
+    </main>
 
-    <dialog id="mergeDialogbox">
-      <form action="" id="mergeform" onsubmit="return false;">
-        <div
-          style="padding: 30px; border: 2px dashed red"
-          id="upload-section-merge"
-        >
+    <!-- Merge Dialog -->
+    <dialog id="mergeDialogbox" aria-labelledby="merge-dialog-title">
+      <div class="dialog-header">
+        <h2 id="merge-dialog-title">
+          <i class="fa fa-files-o" aria-hidden="true"></i>
+          Merge PDFs
+        </h2>
+        <button class="dialog-close" id="merge-close" aria-label="Close dialog">
+          &times;
+        </button>
+      </div>
+
+      <form id="mergeform" onsubmit="return false;">
+        <div id="upload-section-merge">
+          <i class="fa fa-cloud-upload upload-icon" aria-hidden="true"></i>
+          <p class="upload-text">
+            Drag & drop PDF files here or click to browse
+          </p>
+          <p class="upload-hint">Supports multiple PDF files</p>
           <input
             type="file"
             name="files"
@@ -42,36 +75,137 @@
             multiple
             hidden
           />
-          <button type="Upload" id="uploadfilesmerge">Upload</button>
+          <button type="button" id="uploadfilesmerge">
+            <i class="fa fa-folder-open" aria-hidden="true"></i>
+            Choose Files
+          </button>
         </div>
       </form>
-      <div class="total_files"></div>
-      <div style="display: flex; justify-content: center; align-items: center">
-        <button id="merge-submit">Submit</button>
-      </div>
+
+      <div class="total_files" aria-label="Selected files"></div>
+
+      <button id="merge-submit" type="button">
+        <i class="fa fa-compress" aria-hidden="true"></i>
+        Merge Files
+      </button>
     </dialog>
 
-    <!-- end -->
+    <!-- Split Dialog -->
+    <dialog id="splitDialogbox" aria-labelledby="split-dialog-title">
+      <div class="dialog-header">
+        <h2 id="split-dialog-title">
+          <i class="fa fa-scissors" aria-hidden="true"></i>
+          Split PDF
+        </h2>
+        <button class="dialog-close" id="split-close" aria-label="Close dialog">
+          &times;
+        </button>
+      </div>
 
-    <!-- Split dialog box -->
-    <dialog id="splitDialogbox">
       <div class="split-file-upload-section">
-        <button>Upload</button>
+        <i class="fa fa-cloud-upload upload-icon" aria-hidden="true"></i>
+        <p class="upload-text">Upload a PDF file to split</p>
+        <p class="upload-hint">Select page range to extract</p>
+        <button type="button" id="split-upload-btn">
+          <i class="fa fa-folder-open" aria-hidden="true"></i>
+          Choose File
+        </button>
+        <input type="file" id="split-file" accept=".pdf" hidden />
       </div>
-      <div class="idk">
-        <input type="file" accept=".pdf" multiple hidden />
 
-        <input type="number" id="from" />
-        <input type="number" id="to" />
+      <div class="idk">
+        <label>
+          <span>From Page</span>
+          <input type="number" id="from" placeholder="e.g. 1" min="1" />
+        </label>
+        <label>
+          <span>To Page</span>
+          <input type="number" id="to" placeholder="e.g. 5" min="1" />
+        </label>
       </div>
+
       <div class="split-submit">
-        <button>Submit</button>
+        <button type="button" id="split-submit-btn">
+          <i class="fa fa-scissors" aria-hidden="true"></i>
+          Split PDF
+        </button>
       </div>
     </dialog>
-    <!-- end -->
+
+    <!-- PDF to Word Dialog -->
+    <dialog id="pdf2wordDialogbox" aria-labelledby="pdf2word-dialog-title">
+      <div class="dialog-header">
+        <h2 id="pdf2word-dialog-title">
+          <i class="fa fa-file-word-o" aria-hidden="true"></i>
+          PDF to Word
+        </h2>
+        <button
+          class="dialog-close"
+          id="pdf2word-close"
+          aria-label="Close dialog"
+        >
+          &times;
+        </button>
+      </div>
+
+      <div class="split-file-upload-section">
+        <i class="fa fa-cloud-upload upload-icon" aria-hidden="true"></i>
+        <p class="upload-text">Upload a PDF file to convert to Word</p>
+        <p class="upload-hint">Converts PDF to .docx format</p>
+        <button type="button" id="pdf2word-upload-btn">
+          <i class="fa fa-folder-open" aria-hidden="true"></i>
+          Choose File
+        </button>
+        <input type="file" id="pdf2word-file" accept=".pdf" hidden />
+      </div>
+
+      <div class="split-submit">
+        <button type="button" id="pdf2word-submit-btn">
+          <i class="fa fa-exchange" aria-hidden="true"></i>
+          Convert to Word
+        </button>
+      </div>
+    </dialog>
+
+    <!-- Word to PDF Dialog -->
+    <dialog id="word2pdfDialogbox" aria-labelledby="word2pdf-dialog-title">
+      <div class="dialog-header">
+        <h2 id="word2pdf-dialog-title">
+          <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+          Word to PDF
+        </h2>
+        <button
+          class="dialog-close"
+          id="word2pdf-close"
+          aria-label="Close dialog"
+        >
+          &times;
+        </button>
+      </div>
+
+      <div class="split-file-upload-section">
+        <i class="fa fa-cloud-upload upload-icon" aria-hidden="true"></i>
+        <p class="upload-text">Upload a Word document to convert to PDF</p>
+        <p class="upload-hint">Supports .doc and .docx formats</p>
+        <button type="button" id="word2pdf-upload-btn">
+          <i class="fa fa-folder-open" aria-hidden="true"></i>
+          Choose File
+        </button>
+        <input type="file" id="word2pdf-file" accept=".doc,.docx" hidden />
+      </div>
+
+      <div class="split-submit">
+        <button type="button" id="word2pdf-submit-btn">
+          <i class="fa fa-exchange" aria-hidden="true"></i>
+          Convert to PDF
+        </button>
+      </div>
+    </dialog>
 
     <script src="functions/merge.js"></script>
     <script src="functions/split.js"></script>
+    <script src="functions/pdf2word.js"></script>
+    <script src="functions/word2pdf.js"></script>
 
     <script>
       const mainContainer = document.querySelector(".main-containers");
@@ -105,6 +239,70 @@
           mainContainer.style.display = "flex";
         } catch (error) {
           loading.innerHTML = `<p>Server Connection timeout</p>`;
+        }
+      });
+
+      // Close dialog handlers
+      document.getElementById("merge-close").addEventListener("click", () => {
+        document.getElementById("mergeDialogbox").close();
+      });
+
+      document.getElementById("split-close").addEventListener("click", () => {
+        document.getElementById("splitDialogbox").close();
+      });
+
+      document
+        .getElementById("pdf2word-close")
+        .addEventListener("click", () => {
+          document.getElementById("pdf2wordDialogbox").close();
+        });
+
+      document
+        .getElementById("word2pdf-close")
+        .addEventListener("click", () => {
+          document.getElementById("word2pdfDialogbox").close();
+        });
+
+      // Close dialog on backdrop click
+      document
+        .getElementById("mergeDialogbox")
+        .addEventListener("click", (e) => {
+          if (e.target === e.currentTarget) {
+            e.currentTarget.close();
+          }
+        });
+
+      document
+        .getElementById("splitDialogbox")
+        .addEventListener("click", (e) => {
+          if (e.target === e.currentTarget) {
+            e.currentTarget.close();
+          }
+        });
+
+      document
+        .getElementById("pdf2wordDialogbox")
+        .addEventListener("click", (e) => {
+          if (e.target === e.currentTarget) {
+            e.currentTarget.close();
+          }
+        });
+
+      document
+        .getElementById("word2pdfDialogbox")
+        .addEventListener("click", (e) => {
+          if (e.target === e.currentTarget) {
+            e.currentTarget.close();
+          }
+        });
+
+      // Close dialog on Escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          const openDialog = document.querySelector("dialog[open]");
+          if (openDialog) {
+            openDialog.close();
+          }
         }
       });
     </script>
